@@ -5,6 +5,7 @@ import { AuthenticateUserController } from "./modules/account/useCases/authentic
 import { CreateClientController } from "./modules/clients/useCases/createClients/CreateClientsController";
 import { CreateTownshipController } from "./modules/townships/useCases/createTownship/CreateTownshipController";
 import { CreateUserController } from "./modules/users/useCases/createUsers/CreateUserController";
+import { GetAllUsersOrWithNameController } from "./modules/users/useCases/getAllUsersOrWithName/GetAllUsersOrWithNameController";
 
 export const routes = Router();
 
@@ -15,6 +16,8 @@ const authenticateUserController = new AuthenticateUserController();
 const createTownshipController = new CreateTownshipController();
 
 const createClientController = new CreateClientController();
+
+const getAllUsersOrWithNameController = new GetAllUsersOrWithNameController();
 
 // USER
 routes.post("/user", createUserController.handle);
@@ -33,4 +36,11 @@ routes.post(
   "/client/:id_township",
   EnsureAuthenticateUser,
   createClientController.handle
+);
+
+routes.get(
+  "/user",
+  EnsureAuthenticateUser,
+  verifySlugIsAdmin,
+  getAllUsersOrWithNameController.handle
 );

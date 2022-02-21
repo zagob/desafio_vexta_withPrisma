@@ -7,7 +7,9 @@ export class GetAllUsersOrWithNameController {
 
     const getAllUsersOrWithNameUseCase = new GetAllUsersOrWithNameUseCase();
 
-    const result = await getAllUsersOrWithNameUseCase.execute({ name });
+    const result = await getAllUsersOrWithNameUseCase.execute({
+      name: name as string,
+    });
 
     return response.json(result);
   }
