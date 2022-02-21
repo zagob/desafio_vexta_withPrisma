@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  login    String @unique
+  name     String
+  password String
+  flag     String @default("user")
+
+  @@map("user")
+}
+
+model Townships {
+  id   String @id @default(uuid())
+  name String
+  uf   String
+
+  clients Clients[]
+  @@map("townships")
+}
+
+model Clients {
+  id           String    @id @default(uuid())
+  cnpj_cpf     String
+  natureza     String?
+  name         String
+  name_fantasy String?
+  address      String?
+  number       Int?
+  neighborhood String?
+  complement   String?
+  id_township  String
+  township     Townships @relation(fields: [id_township], references: [id])
+  phone        String?
+  email        String?
+  web          String?
+
+  @@map("clients")
+}
